@@ -1,6 +1,6 @@
 name: Build AppImage
 
-on: []
+on: repository_dispatch
 
 jobs:
   build:

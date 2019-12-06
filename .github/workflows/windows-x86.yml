@@ -1,6 +1,6 @@
 name: windows 32bit
 
-on: []
+on: repository_dispatch
 
 jobs:
   build:

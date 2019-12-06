@@ -1,6 +1,6 @@
 name: windows 32bit
 
-on: [push, pull_request]
+on: []
 
 jobs:
   build:

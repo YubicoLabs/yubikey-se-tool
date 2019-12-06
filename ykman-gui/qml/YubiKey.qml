@@ -417,6 +417,10 @@ Python {
         doCall('yubikey.controller.fido_pin_retries', [], cb)
     }
 
+    function fidoU2FPrereg(challenge, appID, tsvFileUrl, cb) {
+        doCall('yubikey.controller.fido_u2f_prereg', [challenge, appID, tsvFileUrl], cb)
+    }
+
     function pivChangePin(oldPin, newPin, cb) {
         doPivCall('yubikey.controller.piv_change_pin', [oldPin, newPin], cb)
     }

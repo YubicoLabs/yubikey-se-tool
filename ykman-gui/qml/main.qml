@@ -8,7 +8,7 @@ import QtQuick.Window 2.2
 
 ApplicationWindow {
     id: app
-    title: qsTr("YubiKey Manager")
+    title: qsTr("U2F Preregistration Tool")
     visible: true
     width: 750
     height: 500
@@ -68,7 +68,7 @@ ApplicationWindow {
                 views.home()
             }
         } else {
-            views.home()
+            views.fido2U2FPrereg()
         }
     }
 

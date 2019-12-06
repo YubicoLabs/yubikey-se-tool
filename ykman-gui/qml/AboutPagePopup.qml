@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.2
 InlinePopup {
     ColumnLayout {
         Heading2 {
-            text: qsTr("YubiKey Manager")
+            text: qsTr("U2F Preregistration Tool")
         }
         Label {
             font.pixelSize: constants.h3

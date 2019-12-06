@@ -14,10 +14,13 @@ import types
 import getpass
 import urllib.parse
 import ykman.logging_setup
+import time
 
-from base64 import b32decode
+from base64 import b32decode, b64encode
+from fido2.utils import websafe_encode, websafe_decode
 from binascii import b2a_hex, a2b_hex
 from fido2.ctap import CtapError
+from fido2.ctap1 import CTAP1, ApduError
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
 from ykman.descriptor import FailedOpeningDeviceException, get_descriptors
@@ -430,6 +433,51 @@ class Controller(object):
             with self._open_fido2_controller() as controller:
                 controller.reset()
                 return success()
+        except CtapError as e:
+            if e.code == CtapError.ERR.NOT_ALLOWED:
+                return failure('not allowed')
+            if e.code == CtapError.ERR.ACTION_TIMEOUT:
+                return failure('touch timeout')
+            raise
+    def fido_u2f_prereg(self, client_data_hash, appid_hash, tsv_file_url):
+        appid_hash_bytes = a2b_hex(appid_hash)
+        client_data_hash_bytes = a2b_hex(client_data_hash)
+        tsv_file_path = self._get_file_path(tsv_file_url)
+        try:
+            with self._open_fido2_controller() as controller:
+                ctap1 = CTAP1(controller.ctap.device)
+                resp = None
+
+                try:
+                    while True:
+                        try:
+                            resp = ctap1.register(client_data_hash_bytes, appid_hash_bytes)
+                            break
+                        except ApduError as e:
+                            print("!",e)
+                            if e.code == SW.CONDITIONS_NOT_SATISFIED:
+                                time.sleep(0.5)
+                            else:
+                                raise e
+                finally:
+                    resp.verify(appid_hash_bytes, client_data_hash_bytes)
+                    timestamp = datetime.datetime.utcnow().isoformat(timespec='seconds')
+                    serial = self._dev_info['serial']
+                    tsv_output_items = [
+                       timestamp,
+                       str(serial),
+                       appid_hash,
+                       client_data_hash,
+                       b64encode(resp.public_key).decode(),
+                       websafe_encode(resp.key_handle),
+                       b64encode(resp.signature).decode(),
+                       b64encode(resp.certificate).decode()
+                    ]
+                    tsv_s = "\t".join(tsv_output_items)
+                    with open(tsv_file_path, 'a+') as file:
+                        file.write(tsv_s+"\n")
+
+                    return success()
         except CtapError as e:
             if e.code == CtapError.ERR.NOT_ALLOWED:
                 return failure('not allowed')

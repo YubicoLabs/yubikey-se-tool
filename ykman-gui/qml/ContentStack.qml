@@ -156,6 +156,10 @@ StackView {
         replaceAtDepth(2, fido2ResetView, 'fido2ResetView')
     }
 
+    function fido2U2FPrereg() {
+        replaceAtDepth(2, fido2U2FPreregView, 'fido2U2FPreregView')
+    }
+
     function otp() {
         replaceAtDepth(1, otpViewComponent, 'otpView')
     }
@@ -193,6 +197,12 @@ StackView {
     Component {
         id: fido2ChangePinView
         Fido2ChangePinView {
+        }
+    }
+
+    Component {
+        id: fido2U2FPreregView
+        Fido2U2FPreregView {
         }
     }
 

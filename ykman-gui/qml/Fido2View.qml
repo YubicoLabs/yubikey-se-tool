@@ -160,6 +160,30 @@ This action cannot be undone!", function () {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 }
             }
+
+            ColumnSeparator {
+            }
+
+            ColumnLayout {
+                Heading2 {
+                    text: qsTr("U2F Prereg")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+                Label {
+                    text: qsTr("Preregister U2F credentials")
+                    font.pixelSize: constants.h3
+                    color: yubicoGrey
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+                CustomButton {
+                    text: qsTr("Preregister U2F credentials")
+                    highlighted: true
+                    onClicked: views.fido2U2FPrereg()
+                    toolTipText: qsTr("Preregister U2F credentials")
+                    iconSource: "../images/import.svg"
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+            }
         }
 
         ButtonsBar {

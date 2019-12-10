@@ -50,7 +50,7 @@ jobs:
       - name: Build and install pyotherside
         shell: cmd
         run: |
-          set PATH=D:\a\yubikey-manager-qt\yubikey-manager-qt\5.13.1\msvc2017\bin;D:\a\yubikey-manager-qt\yubikey-manager-qt;%PATH%
+          set PATH=D:\a\yubikey-se-tool\yubikey-se-tool\5.13.1\msvc2017\bin;D:\a\yubikey-se-tool\yubikey-se-tool;%PATH%
           call C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat x86
           cd pyotherside-1.5.3
           qmake
@@ -60,7 +60,7 @@ jobs:
       - name: Build app
         shell: cmd
         run: |
-          set PATH=C:\hostedtoolcache\windows\Python\3.6.8\x86\Scripts;C:\hostedtoolcache\windows\Python\3.6.8\x86;D:\a\yubikey-manager-qt\yubikey-manager-qt\5.13.1\msvc2017\bin;D:\a\yubikey-manager-qt\yubikey-manager-qt;%PATH%
+          set PATH=C:\hostedtoolcache\windows\Python\3.6.8\x86\Scripts;C:\hostedtoolcache\windows\Python\3.6.8\x86;D:\a\yubikey-se-tool\yubikey-se-tool\5.13.1\msvc2017\bin;D:\a\yubikey-se-tool\yubikey-se-tool;%PATH%
           call C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat x86
           qmake
           jom
@@ -80,7 +80,7 @@ jobs:
       - name: Run windeployqt
         shell: cmd
         run: |
-          set PATH=D:\a\yubikey-manager-qt\yubikey-manager-qt\5.13.1\msvc2017\bin;D:\a\yubikey-manager-qt\yubikey-manager-qt;%PATH%
+          set PATH=D:\a\yubikey-se-tool\yubikey-se-tool\5.13.1\msvc2017\bin;D:\a\yubikey-se-tool\yubikey-se-tool;%PATH%
           call C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat x86
           windeployqt .\ykman-gui\release\ykman-gui.exe --qmldir=.\ykman-gui\qml --no-translations --angle --release
 
@@ -95,10 +95,10 @@ jobs:
 
           $arr = $env:GITHUB_REF -split '/'
           $branch = $arr[2]
-          7z a yubikey-manager-qt-$branch-win32.zip .\ykman-gui\release
+          7z a yubikey-se-tool-$branch-win32.zip .\ykman-gui\release
 
           mkdir deploy
-          cp yubikey-manager-qt-$branch-win32.zip deploy
+          cp yubikey-se-tool-$branch-win32.zip deploy
         shell: powershell
 
       - name: Run GUI
@@ -116,5 +116,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: yubikey-manager-qt-win32
+          name: yubikey-se-tool-win32
           path: deploy

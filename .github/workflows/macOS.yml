@@ -36,7 +36,7 @@ jobs:
           sudo make install
           cd ..
 
-      - name: Build yubikey-manager-qt
+      - name: Build yubikey-se-tool
         run: |
           qmake
           make
@@ -94,10 +94,10 @@ jobs:
       - name: Rename and archive app bundle
         run: |
           export REF=$(echo ${GITHUB_REF} | cut -d '/' -f 3)
-          mv ykman-gui/ykman-gui.app YubiKey\ Manager.app
-          tar -czf yubikey-manager-qt-${REF}.app.tar.gz YubiKey\ Manager.app
+          mv ykman-gui/ykman-gui.app YubiKey\ SE\ Tool.app
+          tar -czf yubikey-se-tool-${REF}.app.tar.gz YubiKey\ SE\ Tool.app
           mkdir deploy
-          mv yubikey-manager-qt-${REF}.app.tar.gz deploy
+          mv yubikey-se-tool-${REF}.app.tar.gz deploy
 
       - name: Uninstall runtime dependencies
         run: |
@@ -106,16 +106,16 @@ jobs:
 
       - name: Run GUI
         run: |
-          ./YubiKey\ Manager.app/Contents/MacOS/ykman-gui --version
-          ./YubiKey\ Manager.app/Contents/MacOS/ykman-gui --help
+          ./YubiKey\ SE\ Tool.app/Contents/MacOS/ykman-gui --version
+          ./YubiKey\ SE\ Tool.app/Contents/MacOS/ykman-gui --help
 
       - name: Run CLI
         run: |
-          ./YubiKey\ Manager.app/Contents/MacOS/ykman --version
-          [[ -z "$(./YubiKey\ Manager.app/Contents/MacOS/ykman --version | grep -E "not found|missing")" ]]
+          ./YubiKey\ SE\ Tool.app/Contents/MacOS/ykman --version
+          [[ -z "$(./YubiKey\ SE\ Tool.app/Contents/MacOS/ykman --version | grep -E "not found|missing")" ]]
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: yubikey-manager-qt-macos-app-bundle
+          name: yubikey-se-tool-macos-app-bundle
           path: deploy

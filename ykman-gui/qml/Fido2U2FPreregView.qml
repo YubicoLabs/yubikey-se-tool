@@ -7,6 +7,7 @@ import "slotutils.js" as SlotUtils
 import QtQuick.Controls.Material 2.2
 
 ColumnLayout {
+    Component.onCompleted:generateChallenge()
 
     function generatePrivateId() {
         yubiKey.randomUid(function (res) {
@@ -58,6 +59,15 @@ ColumnLayout {
 
     CustomContentColumn {
 
+        Label {
+            text: "Preregister U2F credentials, and output a TSV with preregistration data in the standard format. If the TSV file already exists, each new preregistration will be appended as a new row."
+            wrapMode: Text.WordWrap
+            font.pixelSize: constants.h3
+            color: yubicoBlue
+            Layout.maximumWidth: parent.width
+            width: parent.width
+        }
+
         GridLayout {
             columns: 3
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
@@ -76,7 +86,7 @@ ColumnLayout {
                 validator: RegExpValidator {
                     regExp: /[0123456789abcdef]{64}$/
                 }
-                toolTipText: qsTr("AppID must be a 32 byte hex value (SHA256 hash)")
+                toolTipText: qsTr("AppID is the SHA256 hash of the origin URL.")
             }
             Label { }
 
@@ -93,7 +103,7 @@ ColumnLayout {
                 validator: RegExpValidator {
                     regExp: /[0123456789abcdef]{64}$/
                 }
-                toolTipText: qsTr("Challenge must be a 32 byte hex value (SHA256 hash)")
+                toolTipText: qsTr("Challenge should be a random 32 byte hex value.")
             }
             CustomButton {
                 id: generateChallengeBtn
@@ -101,7 +111,7 @@ ColumnLayout {
                 Layout.leftMargin: 10
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignLeft
                 onClicked: generateChallenge()
-                toolTipText: qsTr("Generate a random challenge")
+                toolTipText: qsTr("Generate a random challenge.")
             }
 
             Label {
@@ -142,10 +152,5 @@ ColumnLayout {
                 Layout.alignment: Qt.AlignRight | Qt.AlignBottom
             }
         }
-    }
-
-    Component {
-        id: yubiOtpUploadView
-        YubiOtpUploadView {}
     }
 }

@@ -25,6 +25,18 @@ ColumnLayout {
 
     }
 
+    function openCalculatePopup() {
+        fidoU2FPreregPopup.getInputAndThen(function (effectiveDomain) {
+            yubiKey.fidoGetAppIDFromDomain(effectiveDomain, function (resp) {
+                if (resp.success) {
+                    appIDInput.text = resp.appid
+                } else {
+                    snackbarError.showResponseError(resp)
+                }
+            })
+        })
+    }
+
 
 
     function finish() {
@@ -88,7 +100,13 @@ ColumnLayout {
                 }
                 toolTipText: qsTr("AppID is the SHA256 hash of the origin URL.")
             }
-            Label { }
+            CustomButton {
+                text: qsTr("Calculate")
+                Layout.leftMargin: 10
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignLeft
+                onClicked: openCalculatePopup()
+                toolTipText: qsTr("Calculate the App ID from the effective domain.")
+            }
 
             Label {
                 text: qsTr("Challenge")

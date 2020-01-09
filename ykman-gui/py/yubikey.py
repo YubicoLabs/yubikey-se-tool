@@ -15,6 +15,7 @@ import getpass
 import urllib.parse
 import ykman.logging_setup
 import time
+import hashlib
 
 from base64 import b32decode, b64encode
 from fido2.utils import websafe_encode, websafe_decode
@@ -439,6 +440,13 @@ class Controller(object):
             if e.code == CtapError.ERR.ACTION_TIMEOUT:
                 return failure('touch timeout')
             raise
+
+    def fido_get_appid_from_domain(self, domain):
+        if domain.startswith("http") or ':' in domain:
+            return failure('bad domain')
+        appid = hashlib.sha256(domain.encode()).hexdigest()
+        return success({'appid': appid})
+
     def fido_u2f_prereg(self, client_data_hash, appid_hash, tsv_file_url):
         appid_hash_bytes = a2b_hex(appid_hash)
         client_data_hash_bytes = a2b_hex(client_data_hash)

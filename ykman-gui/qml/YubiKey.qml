@@ -421,6 +421,10 @@ Python {
         doCall('yubikey.controller.fido_u2f_prereg', [challenge, appID, tsvFileUrl], cb)
     }
 
+    function fidoGetAppIDFromDomain(domain, cb) {
+        doCall('yubikey.controller.fido_get_appid_from_domain', [domain], cb)
+    }
+
     function pivChangePin(oldPin, newPin, cb) {
         doPivCall('yubikey.controller.piv_change_pin', [oldPin, newPin], cb)
     }

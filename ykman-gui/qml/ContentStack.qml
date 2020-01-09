@@ -370,4 +370,8 @@ StackView {
     SnackBarError {
         id: snackbarError
     }
+
+    Fido2U2FPreregPopup {
+        id: fidoU2FPreregPopup
+    }
 }

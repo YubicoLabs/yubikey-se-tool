@@ -11,7 +11,6 @@ InlinePopup {
     standardButtons: Dialog.Cancel | Dialog.Ok
 
     onAccepted: acceptCallback(keyInput.text)
-    onVisibleChanged: keyInput.clear()
 
     function getInputAndThen(cb) {
         acceptCallback = cb

@@ -65,4 +65,5 @@ lupdate_only {
 
 DISTFILES += \
     py/yubikey.py \
+    qml/Fido2U2FPreregPopup.qml \
     qml/Fido2U2FPreregView.qml

@@ -61,7 +61,7 @@ ColumnLayout {
     FileDialog {
         id: exportTSVDialog
         title: "Export prereg data to TSV file..."
-        acceptLabel: "Export"
+        acceptLabel: "Select"
         defaultSuffix: ".tsv"
         fileMode: FileDialog.SaveFile
         options: FileDialog.DontConfirmOverwrite

@@ -1,2 +1,22 @@
 == YubiKey SE Tool
 This internal project contains utilities and tools that extend the functionality of YubiKey Manager.
+
+=== Tools & Utilities
+
+Currently, the YubiKey SE Tool allows:
+
+==== U2F Preregistration
+This tool allows for U2F preregistration on a YubiKey. It outputs preregistration data in a standard TSV format, as follows:
+
+```
+    1. Timestamp - (2018-01-01T12:34:56)
+    2. Serial # - (decimal)
+    3. Appid - (hex)
+    4. Challenge (base64)
+    5. Public Point (base64)
+    6. Key Handle (base64)
+    7. Registration Signature (urlsafebase64)
+    8. Attestation Certificate (base64)
+```
+
+If the TSV file selected already exists, the new preregistration data will be appended.

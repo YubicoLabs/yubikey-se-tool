@@ -1,5 +1,5 @@
 == YubiKey SE Tool
-This internal project contains utilities and tools that extend the functionality of YubiKey Manager.
+This project contains utilities and tools that extend the functionality of YubiKey Manager. It is not officially supported and is provided as-is.
 
 === Tools & Utilities
 

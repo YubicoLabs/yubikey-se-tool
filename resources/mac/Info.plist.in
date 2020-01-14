@@ -9,11 +9,11 @@
         <key>CFBundleSignature</key>
         <string>????</string>
         <key>CFBundleExecutable</key>
-        <string>ykman-gui</string>
+        <string>se-tool-gui</string>
         <key>CFBundleIdentifier</key>
         <string>com.yubico.ykman</string>
         <key>CFBundleName</key>
-        <string>YubiKey Manager</string>
+        <string>YubiKey SE Tool</string>
         <key>CFBundleVersion</key>
         <string>@FULL_VERSION@</string>
         <key>CFBundleShortVersionString</key>

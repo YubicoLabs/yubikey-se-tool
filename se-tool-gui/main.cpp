@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     if(!lockFile.tryLock(100)) {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Warning);
-        msgBox.setText("YubiKey Manager is already running.");
+        msgBox.setText("YubiKey Manager or YubiKey SE Tool is already running.");
         msgBox.exec();
         return 1;
     }

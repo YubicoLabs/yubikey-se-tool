@@ -42,59 +42,59 @@ jobs:
           make
 
       - name: Copy over CLI binary to app bundle
-        run: cp ykman-cli/ykman ykman-gui/ykman-gui.app/Contents/MacOS/
+        run: cp ykman-cli/ykman se-tool-gui/se-tool-gui.app/Contents/MacOS/
 
       - name: Run macdeployqt
-        run: macdeployqt ykman-gui/ykman-gui.app/ -qmldir=ykman-gui/qml/ -appstore-compliant
+        run: macdeployqt se-tool-gui/se-tool-gui.app/ -qmldir=se-tool-gui/qml/ -appstore-compliant
 
       - name: Copy over dylibs from homebrew
         run: |
-          sudo find /usr/local/Cellar/json-c/ -name '*.dylib' -exec cp '{}' ykman-gui/ykman-gui.app/Contents/Frameworks/ ';'
-          sudo find /usr/local/Cellar/ykpers/ -name '*.dylib' -exec cp '{}' ykman-gui/ykman-gui.app/Contents/Frameworks/ ';'
-          sudo find /usr/local/Cellar/libyubikey/ -name '*.dylib' -exec cp '{}' ykman-gui/ykman-gui.app/Contents/Frameworks/ ';'
-          sudo find /usr/local/Cellar/libusb/ -name '*.dylib' -exec cp '{}' ykman-gui/ykman-gui.app/Contents/Frameworks/ ';'
-          sudo find /usr/local/Cellar/openssl@1.1/ -name '*.dylib' -exec cp '{}' ykman-gui/ykman-gui.app/Contents/Frameworks/ ';'
+          sudo find /usr/local/Cellar/json-c/ -name '*.dylib' -exec cp '{}' se-tool-gui/se-tool-gui.app/Contents/Frameworks/ ';'
+          sudo find /usr/local/Cellar/ykpers/ -name '*.dylib' -exec cp '{}' se-tool-gui/se-tool-gui.app/Contents/Frameworks/ ';'
+          sudo find /usr/local/Cellar/libyubikey/ -name '*.dylib' -exec cp '{}' se-tool-gui/se-tool-gui.app/Contents/Frameworks/ ';'
+          sudo find /usr/local/Cellar/libusb/ -name '*.dylib' -exec cp '{}' se-tool-gui/se-tool-gui.app/Contents/Frameworks/ ';'
+          sudo find /usr/local/Cellar/openssl@1.1/ -name '*.dylib' -exec cp '{}' se-tool-gui/se-tool-gui.app/Contents/Frameworks/ ';'
 
       - name: Copy over Python.framework to app bundle
         run: |
-          cp -a /Library/Frameworks/Python.framework ykman-gui/ykman-gui.app/Contents/Frameworks/
-          sudo find ykman-gui/ykman-gui.app/Contents/Frameworks/Python.framework -name '*.pyc' -delete
-          sudo find ykman-gui/ykman-gui.app/Contents/Frameworks/Python.framework -name '__pycache__' -delete
+          cp -a /Library/Frameworks/Python.framework se-tool-gui/se-tool-gui.app/Contents/Frameworks/
+          sudo find se-tool-gui/se-tool-gui.app/Contents/Frameworks/Python.framework -name '*.pyc' -delete
+          sudo find se-tool-gui/se-tool-gui.app/Contents/Frameworks/Python.framework -name '__pycache__' -delete
 
       - name: Move python dependencies to site-packages (required by codesign)
         run: |
-          rsync -a ykman-gui/ykman-gui.app/Contents/MacOS/pymodules/* ykman-gui/ykman-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/
-          rm -rf ykman-gui/ykman-gui.app/Contents/MacOS/pymodules
+          rsync -a se-tool-gui/se-tool-gui.app/Contents/MacOS/pymodules/* se-tool-gui/se-tool-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/
+          rm -rf se-tool-gui/se-tool-gui.app/Contents/MacOS/pymodules
 
       - name: Point pyotherside to relative Python
         run: |
-          sudo install_name_tool -change /Library/Frameworks/Python.framework/Versions/3.7/Python @executable_path/../Frameworks/Python.framework/Versions/3.7/Python ykman-gui/ykman-gui.app/Contents/PlugIns/quick/libpyothersideplugin.dylib
+          sudo install_name_tool -change /Library/Frameworks/Python.framework/Versions/3.7/Python @executable_path/../Frameworks/Python.framework/Versions/3.7/Python se-tool-gui/se-tool-gui.app/Contents/PlugIns/quick/libpyothersideplugin.dylib
 
       - name: Point custom Python share objects to relative openssl (from brew)
         run: |
-          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libcrypto.1.1.dylib @executable_path/../Frameworks/libcrypto.1.1.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_ssl.cpython-37m-darwin.so
-          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libssl.1.1.dylib @executable_path/../Frameworks/libssl.1.1.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_ssl.cpython-37m-darwin.so
-          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libcrypto.1.1.dylib @executable_path/../Frameworks/libcrypto.1.1.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_hashlib.cpython-37m-darwin.so
-          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libssl.1.1.dylib @executable_path/../Frameworks/libssl.1.1.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_hashlib.cpython-37m-darwin.so
-          sudo install_name_tool -change /usr/local/Cellar/openssl@1.1/1.1.1d/lib/libcrypto.1.1.dylib @executable_path/../Frameworks/libcrypto.1.1.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/libssl.1.1.dylib
+          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libcrypto.1.1.dylib @executable_path/../Frameworks/libcrypto.1.1.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_ssl.cpython-37m-darwin.so
+          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libssl.1.1.dylib @executable_path/../Frameworks/libssl.1.1.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_ssl.cpython-37m-darwin.so
+          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libcrypto.1.1.dylib @executable_path/../Frameworks/libcrypto.1.1.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_hashlib.cpython-37m-darwin.so
+          sudo install_name_tool -change /usr/local/opt/openssl@1.1/lib/libssl.1.1.dylib @executable_path/../Frameworks/libssl.1.1.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/Python.framework/Versions/3.7/lib/python3.7/lib-dynload/_hashlib.cpython-37m-darwin.so
+          sudo install_name_tool -change /usr/local/Cellar/openssl@1.1/1.1.1d/lib/libcrypto.1.1.dylib @executable_path/../Frameworks/libcrypto.1.1.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/libssl.1.1.dylib
 
       - name: Point ykpers dependencies to relative dylibs
         run: |
-          sudo install_name_tool -change /usr/local/opt/libyubikey/lib/libyubikey.0.dylib @executable_path/../Frameworks/libyubikey.0.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/libykpers-1.1.dylib
-          sudo install_name_tool -change /usr/local/opt/libyubikey/lib/libyubikey.0.dylib @executable_path/../Frameworks/libyubikey.0.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/libykpers-1.dylib
-          sudo install_name_tool -change /usr/local/opt/json-c/lib/libjson-c.4.dylib @executable_path/../Frameworks/libjson-c.4.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/libykpers-1.1.dylib
-          sudo install_name_tool -change /usr/local/opt/json-c/lib/libjson-c.4.dylib @executable_path/../Frameworks/libjson-c.4.dylib ykman-gui/ykman-gui.app/Contents/Frameworks/libykpers-1.dylib
+          sudo install_name_tool -change /usr/local/opt/libyubikey/lib/libyubikey.0.dylib @executable_path/../Frameworks/libyubikey.0.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/libykpers-1.1.dylib
+          sudo install_name_tool -change /usr/local/opt/libyubikey/lib/libyubikey.0.dylib @executable_path/../Frameworks/libyubikey.0.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/libykpers-1.dylib
+          sudo install_name_tool -change /usr/local/opt/json-c/lib/libjson-c.4.dylib @executable_path/../Frameworks/libjson-c.4.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/libykpers-1.1.dylib
+          sudo install_name_tool -change /usr/local/opt/json-c/lib/libjson-c.4.dylib @executable_path/../Frameworks/libjson-c.4.dylib se-tool-gui/se-tool-gui.app/Contents/Frameworks/libykpers-1.dylib
 
       - name: Point to relative Qt for CLI binary (macdeployqt doesn't fix this)
         run: |
-          sudo install_name_tool -change /usr/local/opt/qt/lib/QtQml.framework/Versions/5/QtQml @executable_path/../Frameworks/QtQml.framework/Versions/5/QtQml ykman-gui/ykman-gui.app/Contents/MacOS/ykman
-          sudo install_name_tool -change /usr/local/opt/qt/lib/QtNetwork.framework/Versions/5/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/5/QtNetwork ykman-gui/ykman-gui.app/Contents/MacOS/ykman
-          sudo install_name_tool -change /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore ykman-gui/ykman-gui.app/Contents/MacOS/ykman
+          sudo install_name_tool -change /usr/local/opt/qt/lib/QtQml.framework/Versions/5/QtQml @executable_path/../Frameworks/QtQml.framework/Versions/5/QtQml se-tool-gui/se-tool-gui.app/Contents/MacOS/ykman
+          sudo install_name_tool -change /usr/local/opt/qt/lib/QtNetwork.framework/Versions/5/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/5/QtNetwork se-tool-gui/se-tool-gui.app/Contents/MacOS/ykman
+          sudo install_name_tool -change /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore se-tool-gui/se-tool-gui.app/Contents/MacOS/ykman
 
       - name: Rename and archive app bundle
         run: |
           export REF=$(echo ${GITHUB_REF} | cut -d '/' -f 3)
-          mv ykman-gui/ykman-gui.app YubiKey\ SE\ Tool.app
+          mv se-tool-gui/se-tool-gui.app YubiKey\ SE\ Tool.app
           tar -czf yubikey-se-tool-${REF}.app.tar.gz YubiKey\ SE\ Tool.app
           mkdir deploy
           mv yubikey-se-tool-${REF}.app.tar.gz deploy
@@ -106,8 +106,8 @@ jobs:
 
       - name: Run GUI
         run: |
-          ./YubiKey\ SE\ Tool.app/Contents/MacOS/ykman-gui --version
-          ./YubiKey\ SE\ Tool.app/Contents/MacOS/ykman-gui --help
+          ./YubiKey\ SE\ Tool.app/Contents/MacOS/se-tool-gui --version
+          ./YubiKey\ SE\ Tool.app/Contents/MacOS/se-tool-gui --help
 
       - name: Run CLI
         run: |

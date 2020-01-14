@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=YubiKey Manager
-GenericName=YubiKey Manager
-Comment=Graphical application for configuring your YubiKey over all USB transports.
-Exec=ykman-gui
+Name=YubiKey SE Tool
+GenericName=YubiKey SE Tool
+Comment=Graphical application for advanced YubiKey configuration.
+Exec=se-tool
 Icon=ykman
 StartupNotify=false
 Terminal=false

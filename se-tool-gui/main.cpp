@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     QString path_prefix;
     QString url_prefix;
 
-    app.setApplicationName("YubiKey Manager");
+    app.setApplicationName("YubiKey SE Tool");
     app.setApplicationVersion(APP_VERSION);
     app.setOrganizationName("Yubico");
     app.setOrganizationDomain("org.yubico");

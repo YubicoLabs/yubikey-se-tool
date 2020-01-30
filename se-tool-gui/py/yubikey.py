@@ -472,14 +472,14 @@ class Controller(object):
                     timestamp = datetime.datetime.utcnow().isoformat(timespec='seconds')
                     serial = self._dev_info['serial']
                     tsv_output_items = [
-                       timestamp,
                        str(serial),
                        appid_hash,
                        client_data_hash,
                        b64encode(resp.public_key).decode(),
                        websafe_encode(resp.key_handle),
                        b64encode(resp.signature).decode(),
-                       b64encode(resp.certificate).decode()
+                       b64encode(resp.certificate).decode(),
+                       timestamp
                     ]
                     tsv_s = "\t".join(tsv_output_items)
                     with open(tsv_file_path, 'a+') as file:

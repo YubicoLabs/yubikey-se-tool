@@ -474,7 +474,7 @@ class Controller(object):
                     tsv_output_items = [
                        str(serial),
                        appid_hash,
-                       client_data_hash,
+                       b64encode(client_data_hash_bytes).decode(),
                        b64encode(resp.public_key).decode(),
                        websafe_encode(resp.key_handle),
                        b64encode(resp.signature).decode(),
